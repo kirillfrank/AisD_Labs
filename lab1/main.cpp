@@ -3,6 +3,13 @@
 #include <string>
 #include <utility>
 
+template <typename T>
+bool is_subset(const T* arr1, int size1, const T* arr2, int size2) {
+    Set<T> set1(arr1, size1);
+    Set<T> set2(arr2, size2);
+    return (set1 - set2) == Set<T>();
+}
+
 int main() {
     std::cout << "=== int ===\n";
     Set<int> s1(5, 1, 10);
@@ -25,6 +32,22 @@ int main() {
     std::pair<int, double> pairs[] = { {1, 1.5}, {2, 2.5} };
     Set<std::pair<int, double>> s_pair(pairs, 2);
     std::cout << "Set: " << s_pair << "\n";
+
+    std::cout << "\n=== exception ===\n";
+    try {
+        std::cout << s1[100] << "\n";
+    }
+    catch (const std::exception& e) {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    std::cout << "\n=== Task ===\n";
+    int a1[] = { 1, 2, 3 };
+    int a2[] = { 3, 1, 2, 4, 5 };
+    int a3[] = { 1, 2, 6 };
+
+    std::cout << "Is {1,2,3} in {3,1,2,4,5}? " << (is_subset(a1, 3, a2, 5) ? "Yes" : "No") << "\n";
+    std::cout << "Is {1,2,3} in {1,2,6}? " << (is_subset(a1, 3, a3, 3) ? "Yes" : "No") << "\n";
 
     return 0;
 }
